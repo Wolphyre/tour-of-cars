@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Car } from 'src/app/model/car';
 import { CarApiService } from './services/car-api.service';
+import { MessageService } from 'src/app/message.service';
 
 @Component({
   selector: 'app-car-list',
@@ -11,7 +12,8 @@ export class CarListComponent implements OnInit {
 
   carsArray: Car[] = [];
 
-  selectedCar?: Car;
+ // selectedCar?: Car;
+
 
   constructor(private carService: CarApiService) { }
 
@@ -24,10 +26,10 @@ export class CarListComponent implements OnInit {
 
   }
 
-  openDetail(car: Car){
-    this.selectedCar = car;
+  getCars(): void{
+    this.carService.getCars()
+      .subscribe(cars=> this.carsArray=cars)
   }
-
   }
 
 

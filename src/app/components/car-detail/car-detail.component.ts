@@ -1,5 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { Car } from 'src/app/model/car';
+import { CarApiService } from '../car-list/services/car-api.service';
+
 
 @Component({
   selector: 'app-car-detail',
@@ -8,11 +11,25 @@ import { Car } from 'src/app/model/car';
 })
 export class CarDetailComponent implements OnInit {
 
-  @Input() car?: Car;
+  car?: Car;
 
-  constructor() { }
+
+  constructor(
+    private route: ActivatedRoute,
+    private carApiService: CarApiService,
+    // private location: Location
+  ) { }
 
   ngOnInit(): void {
+    this.getCar()
+  }
+
+  getCar(): void {
+    const id = this.route.snapshot.paramMap.get('id')!;
+    this.carApiService.getCar(id).subscribe({
+    next: (auto) => this.car = auto,
+    error: (err) => console.log(err)
+    })
   }
 
 }
